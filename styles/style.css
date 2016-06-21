@@ -1,0 +1,9 @@
+/*@font-face { font-family: "Roboto"; src: url("../fnt/Roboto-Regular.ttf");}*/
+/*@import url("https://fonts.googleapis.com/css?family=Roboto:400");*/
+
+html { }
+body { margin: 0px; font-size: 0px;}
+body, input { }
+h1, h2, h3, h4, h5, h6 { margin: 0px; font-weight: normal;}
+p { margin: 0px;}
+ul { padding: 0px;}
