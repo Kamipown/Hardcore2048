@@ -15,6 +15,8 @@ var Inputs =
 	{
 		
 		/* DEBUG */ if (event.keyCode == 97) Game.log_blocks();
+		/* DEBUG */ if (event.keyCode == 98) Reaper.move();
+		/* DEBUG */ if (event.keyCode == 99) Reaper.speak("fbgseilf sfsegfuig siluefgliu gsefligseli gfilseuf sef");
 
 		if ((event.keyCode == 38 || event.keyCode == 87) && !Inputs.up)
 		{

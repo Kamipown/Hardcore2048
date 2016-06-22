@@ -1,25 +1,39 @@
-/*@font-face { font-family: "Roboto"; src: url("../fnt/Roboto-Regular.ttf");}*/
+@font-face { font-family: "slkscr"; src: url("../fnt/slkscr.ttf");}
+@font-face { font-family: "slkscrb"; src: url("../fnt/slkscrb.ttf");}
 /*@import url("https://fonts.googleapis.com/css?family=Roboto:400");*/
 
 html { height: 100%;}
-body { height: 100%; margin: 0px; background-color: #111; font-size: 0px; font-family: verdana;}
+body { height: 100%; margin: 0px; background-color: #111; font-size: 0px; font-family: "slkscr";}
 body, input { }
 h1, h2, h3, h4, h5, h6 { margin: 0px; font-weight: normal;}
 p { margin: 0px;}
 ul { padding: 0px;}
 
-#main { display: block; position: relative; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 410px; height: 510px; border: 2px solid #333; border-radius: 5px; background-color: #1a1a1a; box-shadow: 0px 0px 4px #000; overflow: hidden;}
+#main { display: block; position: relative; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 410px; height: 510px; border: 2px solid #333; background-color: #1a1a1a; box-shadow: 0px 0px 4px #000; overflow: hidden;}
 	#main > .menu_section { display: block; box-sizing: border-box; height: 100px; border-bottom: 2px solid #333;}
 		#main > .menu_section > .score_div { display: inline-block; box-sizing: border-box; height: 100%; padding: 0px 10px;}
 			#main > .menu_section > .score_div > h2 { height: 40px; line-height: 40px; font-size: 24px; color: #eee;}
 			#main > .menu_section > .score_div > p { height: 60px; line-height: 60px; font-size: 32px; color: #fff;}
 	#main > .game_section { display: block; box-sizing: border-box; position: relative; width: 410px; height: 410px; padding: 5px;}
-		#main > .game_section > .bg_cell { display: inline-block; vertical-align: top; box-sizing: border-box; width: 90px; height: 90px; margin: 5px; border: 2px solid #1e1e1e; border-radius: 5px; background-color: #171717;}
-		#main > .game_section > .block { display: block; box-sizing: border-box; position: absolute; width: 90px; height: 90px; line-height: 90px; border-radius: 5px; background-color: #57c; text-align: center; font-size: 24px; font-weight: 700; color: #fff;}
-		#main > .game_section > .poison { background-color: #090; background-image: url("../img/poison.svg"); background-size: 70% 70%; background-position: 50% 50%; background-repeat: no-repeat;}
+		#main > .game_section > .bg_cell { display: inline-block; vertical-align: top; box-sizing: border-box; width: 90px; height: 90px; margin: 5px; border: 2px solid #1e1e1e; background-color: #171717;}
+		#main > .game_section > .block { display: block; box-sizing: border-box; position: absolute; width: 90px; height: 90px; line-height: 90px; background-color: #57c; text-align: center; font-size: 24px; font-family: "slkscrb"; color: #fff;}
+		#main > .game_section > .poison { background-image: url("../img/poison.png"); background-size: 100% 100%;}
 		#main > .game_section > .wall_01 { background-color: #777; background-image: url("../img/wall_01.svg"); background-size: 100% 100%;}
 		#main > .game_section > .wall_02 { background-color: #777; background-image: url("../img/wall_02.svg"); background-size: 100% 100%;}
 		#main > .game_section > .wall_03 { background-color: #777; background-image: url("../img/wall_03.svg"); background-size: 100% 100%;}
-		#main > .game_section > .skull { background-color: #407; background-image: url("../img/skull.svg"); background-size: 70% 70%; background-position: 50% 50%; background-repeat: no-repeat;}
+		#main > .game_section > .skull { background-image: url("../img/skull.png"); background-size: 100% 100%;}
 
+#reaper { display: block; position: fixed; bottom: 32px; left: 32px; vertical-align: top; width: 128px; height: 200px; background-image: url("../img/reaper.gif"); transition: all 250ms ease;}
+#reaper_text { display: block; position: fixed; top: calc(100% - 150px); left: 180px; width: 200px; font-size: 16px; color: #fff;}
 
+.shake { animation: shake 250ms;}
+
+@keyframes shake
+{
+	0% { left: 48%; top: 52%;}
+	20% { left: 51%; top: 48%;}
+	40% { left: 50%; top: 53%;}
+	60% { left: 47%; top: 51%;}
+	80% { left: 50%; top: 51%;}
+	100% { left: 50%; top: 50%;}
+}

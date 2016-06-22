@@ -1,5 +1,6 @@
 var Game =
 {
+	main: document.getElementById("main"),
 	board: document.getElementById("board"),
 	blocks: undefined,
 	score: 0,
@@ -30,14 +31,18 @@ var Game =
 		var y = rand_range(0, 3);
 
 		this.blocks[x][y] = new block();
-		this.blocks[x][y].value = rand_range(1, 2);
+		this.blocks[x][y].value = 1;
 		this.blocks[x][y].dom = document.createElement("span");
 		this.blocks[x][y].dom.className = "block";
-		this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
+		this.blocks[x][y].dom.innerHTML = 1;
 		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
 		this.board.appendChild(this.blocks[x][y].dom);
+		Reaper.speak("...")
+		setTimeout(function(){ Reaper.speak("What ?"); }, 500);
+		setTimeout(function(){ Reaper.speak("You thought you were going to play with some 2 and 4 ?"); }, 1500);
+		
 	},
 
 	add_block: function()
@@ -67,16 +72,19 @@ var Game =
 		{
 			this.blocks[x][y].value = -1;
 			this.blocks[x][y].dom.classList.add("poison");
+			Reaper.shake();
 		}
 		else if (n >= 2) // wall
 		{
 			this.blocks[x][y].value = -2;
 			this.blocks[x][y].dom.classList.add("wall_01");
+			Reaper.shake();
 		}
 		else // skull
 		{
 			this.blocks[x][y].value = -5;
 			this.blocks[x][y].dom.classList.add("skull");
+			Reaper.shake();
 		}
 		this.board.appendChild(this.blocks[x][y].dom);
 	},
@@ -109,11 +117,21 @@ var Game =
 		else if (d == 2) this.move_down();
 		else if (d == 3) this.move_left();
 		this.add_block();
+		this.log_blocks();
 	},
 
 	move_up: function()
 	{
+		for (var y = 1; y < 4; ++y)
+		{
+			for (var x = 0; x < 4; ++x)
+			{
+				if (this.blocks[x][y])
+				{
 
+				}
+			}
+		}
 	},
 
 	move_right: function()
@@ -133,7 +151,7 @@ var Game =
 
 	log_blocks: function()
 	{
-		console.log("- | Blocks :");
+		console.log("\n\n\n\n\n\n\n- | Blocks :");
 		for (var y = 0; y < 4; ++y)
 		{
 			var l = y + " | ";
