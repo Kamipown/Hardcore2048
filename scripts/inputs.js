@@ -13,6 +13,9 @@ var Inputs =
 
 	key_down: function(event)
 	{
+		
+		/* DEBUG */ if (event.keyCode == 97) Game.log_blocks();
+
 		if ((event.keyCode == 38 || event.keyCode == 87) && !Inputs.up)
 		{
 			Inputs.up = true;

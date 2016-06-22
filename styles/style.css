@@ -13,8 +13,8 @@ ul { padding: 0px;}
 		#main > .menu_section > .score_div { display: inline-block; box-sizing: border-box; height: 100%; padding: 0px 10px;}
 			#main > .menu_section > .score_div > h2 { height: 40px; line-height: 40px; font-size: 24px; color: #eee;}
 			#main > .menu_section > .score_div > p { height: 60px; line-height: 60px; font-size: 32px; color: #fff;}
-	#main > .game_section { display: block; box-sizing: border-box; width: 410px; height: 410px; padding: 5px;}
+	#main > .game_section { display: block; box-sizing: border-box; position: relative; width: 410px; height: 410px; padding: 5px;}
 		#main > .game_section > .bg_cell { display: inline-block; vertical-align: top; box-sizing: border-box; width: 90px; height: 90px; margin: 5px; border: 2px solid #1e1e1e; border-radius: 5px; background-color: #171717;}
+		#main > .game_section > .block { display: block; box-sizing: border-box; position: absolute; width: 90px; height: 90px; line-height: 90px; border-radius: 5px; background-color: #57c; text-align: center; font-size: 24px; font-weight: 700; color: #fff;}
 
 
-		
