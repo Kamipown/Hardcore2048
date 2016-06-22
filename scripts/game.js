@@ -8,21 +8,6 @@ var Game =
 	{
 		this.init_blocks();
 		this.add_first_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
-		this.add_block();
 		this.log_blocks();
 	},
 
@@ -58,6 +43,11 @@ var Game =
 	add_block: function()
 	{
 		var pos = this.find_pos();
+		if (!pos)
+		{
+			console.log("Not enough space for a new block.");
+			return ;
+		}
 		var x = pos.x;
 		var y = pos.y;
 
@@ -73,20 +63,19 @@ var Game =
 			this.blocks[x][y].value = rand_range(1, 2);
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
 		}
-		else if (n >= 6) // division
+		else if (n >= 6) // poison
 		{
 			this.blocks[x][y].value = -1;
-			this.blocks[x][y].dom.innerHTML = "/2";
-			this.blocks[x][y].dom.classList.add("division");
+			this.blocks[x][y].dom.classList.add("poison");
 		}
 		else if (n >= 2) // wall
 		{
 			this.blocks[x][y].value = -2;
 			this.blocks[x][y].dom.classList.add("wall_01");
 		}
-		else // Crane
+		else // skull
 		{
-			this.blocks[x][y].value = -3;
+			this.blocks[x][y].value = -5;
 			this.blocks[x][y].dom.classList.add("skull");
 		}
 		this.board.appendChild(this.blocks[x][y].dom);
@@ -111,6 +100,15 @@ var Game =
 						return (pos);
 					}
 				}
+	},
+
+	move: function(d)
+	{
+		if (d == 0) this.move_up();
+		else if (d == 1) this.move_right();
+		else if (d == 2) this.move_down();
+		else if (d == 3) this.move_left();
+		this.add_block();
 	},
 
 	move_up: function()

@@ -19,22 +19,22 @@ var Inputs =
 		if ((event.keyCode == 38 || event.keyCode == 87) && !Inputs.up)
 		{
 			Inputs.up = true;
-			Game.move_up();
+			Game.move(0);
 		}
 		else if ((event.keyCode == 39 || event.keyCode == 68) && !Inputs.right)
 		{
 			Inputs.right = true;
-			Game.move_right();
+			Game.move(1);
 		}
 		else if ((event.keyCode == 40 || event.keyCode == 83) && !Inputs.down)
 		{
 			Inputs.down = true;
-			Game.move_down();
+			Game.move(2);
 		}
 		else if ((event.keyCode == 37 || event.keyCode == 65) && !Inputs.left)
 		{
 			Inputs.left = true;
-			Game.move_left();
+			Game.move(3);
 		}
 	},
 
