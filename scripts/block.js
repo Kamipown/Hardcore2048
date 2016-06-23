@@ -9,11 +9,6 @@ function block()
 		this.y = 6;
 	}
 
-	this.log = function()
-	{
-		console.log(this.x + " " + this.y);
-	}
-
 	this.delete = function()
 	{
 		this.dom.ParentNode.removeChild(this.dom);

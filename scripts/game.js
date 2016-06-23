@@ -40,6 +40,7 @@ var Game =
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
 		this.board.appendChild(this.blocks[x][y].dom);
+		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
 		Reaper.speak("...")
 		setTimeout(function(){ Reaper.speak("What ?"); }, 500);
 		setTimeout(function(){ Reaper.speak("You thought you were going to play with some 2 and 4 ?"); }, 1500);
@@ -86,6 +87,7 @@ var Game =
 			this.blocks[x][y].dom.classList.add("skull");
 		}
 		this.board.appendChild(this.blocks[x][y].dom);
+		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
 	},
 
 	find_pos: function()
@@ -121,15 +123,37 @@ var Game =
 
 	move_up: function()
 	{
-		for (var y = 1; y < 4; ++y)
+		for (var x = 0; x < 4; ++x)
 		{
-			for (var x = 0; x < 4; ++x)
+			for (var y = 1; y < 4; ++y)
 			{
 				if (this.blocks[x][y])
 				{
+					var ty = y;
+					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
+						--ty;
+					if (ty == 0) // Full top
+					{
+						var tmp_block = this.blocks[x][y];
+						this.blocks[x][y] = 0;
+						this.blocks[x][ty] = tmp_block;
+						this.blocks[x][ty].dom.style.top = 100 * ty + 10 + "px";
+					}
+					else if (this.blocks[x][ty - 1].value == this.blocks[x][y].value && this.blocks[x][y].value > 0) // Fusion
+					{
 
+					}
 				}
 			}
+			// if (this.blocks[x][y])
+			// {
+			// 	if (!this.blocks[x][y -1])
+			// 	{
+			// 		var tmp_block = this.blocks[x][y];
+			// 		this.blocks[x][y] = 0;
+			// 		this.blocks[x][y - 1] = tmp_block;
+			// 		this.blocks[x][y - 1].dom.style.top = 100 * (y - 1) + 10 + "px";
+			// 	}
 		}
 	},
 
@@ -150,7 +174,7 @@ var Game =
 
 	log_blocks: function()
 	{
-		console.log("\n\n\n\n\n\n\n- | Blocks :");
+		console.log("- | Blocks :");
 		for (var y = 0; y < 4; ++y)
 		{
 			var l = y + " | ";
