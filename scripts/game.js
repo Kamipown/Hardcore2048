@@ -35,6 +35,7 @@ var Game =
 		this.blocks[x][y].dom = document.createElement("span");
 		this.blocks[x][y].dom.className = "block";
 		this.blocks[x][y].dom.innerHTML = 1;
+		this.blocks[x][y].dom.style.backgroundColor = "#6281d0";
 		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
@@ -67,24 +68,22 @@ var Game =
 		{
 			this.blocks[x][y].value = rand_range(1, 2);
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
+			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
 		}
 		else if (n >= 6) // poison
 		{
 			this.blocks[x][y].value = -1;
 			this.blocks[x][y].dom.classList.add("poison");
-			Reaper.shake();
 		}
 		else if (n >= 2) // wall
 		{
 			this.blocks[x][y].value = -2;
 			this.blocks[x][y].dom.classList.add("wall_01");
-			Reaper.shake();
 		}
 		else // skull
 		{
 			this.blocks[x][y].value = -5;
 			this.blocks[x][y].dom.classList.add("skull");
-			Reaper.shake();
 		}
 		this.board.appendChild(this.blocks[x][y].dom);
 	},
