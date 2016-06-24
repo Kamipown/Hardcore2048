@@ -64,19 +64,19 @@ var Game =
 		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
-		var n = rand_range(0, 99);
-		if (n >= 10)
+		var n = rand_range(0, 199);
+		if (n >= 100)
 		{
 			this.blocks[x][y].value = 2;
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
 			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
 		}
-		else if (n >= 6) // poison
+		else if (n >= 60) // poison
 		{
 			this.blocks[x][y].value = -1;
 			this.blocks[x][y].dom.classList.add("poison");
 		}
-		else if (n >= 2) // wall
+		else if (n >= 20) // wall
 		{
 			this.blocks[x][y].value = -2;
 			this.blocks[x][y].dom.classList.add("wall_01");
@@ -129,11 +129,11 @@ var Game =
 			{
 				if (this.blocks[x][y]) // Normal block
 				{
+					var ty = y;
+					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
+						--ty;
 					if (this.blocks[x][y].value > 0)
 					{
-						var ty = y;
-						while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
-							--ty;
 						if (ty == 0 || (this.blocks[x][y].value != this.blocks[x][ty - 1].value && this.blocks[x][ty - 1].value > 0))
 							this.block_move(x, y, x, ty);
 						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value)
@@ -142,6 +142,20 @@ var Game =
 							this.block_to_poison(x, y, x, ty - 1);
 						else if (this.blocks[x][ty - 1].value == -5)
 							this.block_to_skull(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value == -1) // Poison block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.poison_to_block(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value == -5) // Skull block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.skull_to_block(x, y, x, ty - 1);
 					}
 				}
 			}
@@ -188,7 +202,6 @@ var Game =
 	{
 		var tmp_block = this.blocks[px][py];
 		var tmp_poison = this.blocks[dx][dy];
-
 		this.blocks[px][py] = 0;
 		this.blocks[dx][dy] = tmp_block;
 		if (tmp_block.value > 1)
@@ -200,12 +213,63 @@ var Game =
 		tmp_block.dom.style.left = tmp_poison.dom.style.left;
 		tmp_block.dom.style.top = tmp_poison.dom.style.top;
 		Reaper.anim_poison(tmp_block);
-		setTimeout(function() { tmp_poison.dom.parentNode.removeChild(tmp_poison.dom); }, 100);
+		setTimeout(function()
+		{
+			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+		}, 100);
+	},
+
+	poison_to_block: function(px, py, dx, dy)
+	{
+		var tmp_poison = this.blocks[px][py];
+		this.blocks[px][py] = 0;
+		if (this.blocks[dx][dy].value > 1)
+		{
+			this.blocks[dx][dy].value /= 2;
+			this.blocks[dx][dy].dom.innerHTML = this.blocks[dx][dy].value;
+		}
+		tmp_poison.dom.style.zIndex = 3;
+		tmp_poison.dom.style.left = this.blocks[dx][dy].dom.style.left;
+		tmp_poison.dom.style.top = this.blocks[dx][dy].dom.style.top;
+		Reaper.anim_poison(this.blocks[dx][dy]);
+		setTimeout(function()
+		{
+			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+		}, 100);
 	},
 
 	block_to_skull: function(px, py, dx, dy)
 	{
+		var tmp_block = this.blocks[px][py];
+		var tmp_skull = this.blocks[dx][dy];
+		this.blocks[px][py] = 0;
+		this.blocks[dx][dy] = 0;
+		tmp_skull.dom.style.zIndex = 3;
+		tmp_block.dom.style.left = tmp_skull.dom.style.left;
+		tmp_block.dom.style.top = tmp_skull.dom.style.top;
+		Reaper.anim_skull(tmp_block);
+		setTimeout(function()
+		{
+			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
+			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
+		}, 100);
+	},
 
+	skull_to_block: function(px, py, dx, dy)
+	{
+		var tmp_skull = this.blocks[px][py];
+		var tmp_block = this.blocks[dx][dy];
+		this.blocks[px][py] = 0;
+		this.blocks[dx][dy] = 0;
+		tmp_skull.dom.style.zIndex = 3;
+		tmp_skull.dom.style.left = tmp_block.dom.style.left;
+		tmp_skull.dom.style.top = tmp_block.dom.style.top;
+		Reaper.anim_skull(tmp_block);
+		setTimeout(function()
+		{
+			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
+			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
+		}, 100);
 	},
 
 	log_blocks: function()

@@ -61,5 +61,10 @@ var Reaper =
 			block.dom.classList.remove("anim_poison");
 			block.dom.style.backgroundColor = define_color(block.value);
 		}, 100);
+	},
+
+	anim_skull: function(block)
+	{
+		block.dom.classList.add("anim_skull");
 	}
 }
