@@ -320,6 +320,7 @@ var Game =
 		this.blocks[dx][dy] = tmp_block;
 		this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
 		this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
+		Audio.play_snd("move");
 	},
 
 	block_fusion: function(px, py, dx, dy)
@@ -352,6 +353,7 @@ var Game =
 		setTimeout(function()
 		{
 			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+			Audio.play_snd("poison");
 		}, 100);
 	},
 
@@ -371,6 +373,7 @@ var Game =
 		setTimeout(function()
 		{
 			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+			Audio.play_snd("poison");
 		}, 100);
 	},
 
@@ -388,6 +391,7 @@ var Game =
 		{
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
+			Audio.play_snd("skull");
 		}, 100);
 	},
 
@@ -405,6 +409,7 @@ var Game =
 		{
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
+			Audio.play_snd("skull");
 		}, 100);
 	},
 
@@ -440,6 +445,7 @@ var Game =
 			else if (d == 1) Reaper.shake_right();
 			else if (d == 2) Reaper.shake_bottom();
 			else if (d == 3) Reaper.shake_left();
+			Audio.play_snd("wall");
 		}, 100);
 	},
 

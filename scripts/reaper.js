@@ -10,6 +10,7 @@ var Reaper =
 		{
 			Game.main.classList.remove("shake");
 		}, 250);
+		Audio.play_snd("reaper");
 	},
 
 	shake_top: function()
