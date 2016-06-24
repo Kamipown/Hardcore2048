@@ -35,7 +35,7 @@ var Game =
 		this.blocks[x][y].dom = document.createElement("span");
 		this.blocks[x][y].dom.className = "block";
 		this.blocks[x][y].dom.innerHTML = 1;
-		this.blocks[x][y].dom.style.backgroundColor = "#6281d0";
+		this.blocks[x][y].dom.style.backgroundColor = define_color(1);
 		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
@@ -134,13 +134,15 @@ var Game =
 						--ty;
 					if (this.blocks[x][y].value > 0)
 					{
-						if (ty == 0 || (this.blocks[x][y].value != this.blocks[x][ty - 1].value && this.blocks[x][ty - 1].value > 0))
+						if (ty == 0 || (this.blocks[x][ty - 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty - 1].value))
 							this.block_move(x, y, x, ty);
-						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value)
+						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value) // Fusion
 							this.block_fusion(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value == -1)
+						else if (this.blocks[x][ty - 1].value == -1) // Poison
 							this.block_to_poison(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value == -5)
+						else if (this.blocks[x][ty - 1].value <= -2 && this.blocks[x][ty - 1].value >= -4)
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][ty - 1].value == -5) // Skull
 							this.block_to_skull(x, y, x, ty - 1);
 					}
 					else if (this.blocks[x][y].value == -1) // Poison block
@@ -149,6 +151,11 @@ var Game =
 							this.block_move(x, y, x, ty);
 						else
 							this.poison_to_block(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
+					{
+						if (ty != y)
+							this.wall_move(x, y, x, ty, 0);
 					}
 					else if (this.blocks[x][y].value == -5) // Skull block
 					{
@@ -164,17 +171,146 @@ var Game =
 
 	move_right: function()
 	{
-		
+		for (var x = 0; x < 4; ++x)
+		{
+			for (var y = 1; y < 4; ++y)
+			{
+				if (this.blocks[x][y]) // Normal block
+				{
+					var ty = y;
+					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
+						--ty;
+					if (this.blocks[x][y].value > 0)
+					{
+						if (ty == 0 || (this.blocks[x][ty - 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty - 1].value))
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value) // Fusion
+							this.block_fusion(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value == -1) // Poison
+							this.block_to_poison(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value <= -2 && this.blocks[x][ty - 1].value >= -4)
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][ty - 1].value == -5) // Skull
+							this.block_to_skull(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value == -1) // Poison block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.poison_to_block(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
+					{
+						if (ty != y)
+							this.wall_move(x, y, x, ty, 0);
+					}
+					else if (this.blocks[x][y].value == -5) // Skull block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.skull_to_block(x, y, x, ty - 1);
+					}
+				}
+			}
+		}
 	},
 
 	move_down: function()
 	{
-		
+		for (var x = 0; x < 4; ++x)
+		{
+			for (var y = 1; y < 4; ++y)
+			{
+				if (this.blocks[x][y]) // Normal block
+				{
+					var ty = y;
+					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
+						--ty;
+					if (this.blocks[x][y].value > 0)
+					{
+						if (ty == 0 || (this.blocks[x][ty - 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty - 1].value))
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value) // Fusion
+							this.block_fusion(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value == -1) // Poison
+							this.block_to_poison(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value <= -2 && this.blocks[x][ty - 1].value >= -4)
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][ty - 1].value == -5) // Skull
+							this.block_to_skull(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value == -1) // Poison block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.poison_to_block(x, y, x, ty - 1);
+					}
+					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
+					{
+						if (ty != y)
+							this.wall_move(x, y, x, ty, 0);
+					}
+					else if (this.blocks[x][y].value == -5) // Skull block
+					{
+						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+							this.block_move(x, y, x, ty);
+						else
+							this.skull_to_block(x, y, x, ty - 1);
+					}
+				}
+			}
+		}
 	},
 
 	move_left: function()
 	{
-		
+		for (var y = 0; y < 4; ++y)
+		{
+			for (var x = 1; x < 4; ++x)
+			{
+				if (this.blocks[x][y]) // Normal block
+				{
+					var tx = x;
+					while (tx - 1 >= 0 && !this.blocks[tx - 1][y])
+						--tx;
+					if (this.blocks[x][y].value > 0)
+					{
+						if (tx == 0 || (this.blocks[tx - 1][y].value > 0 && this.blocks[x][y].value != this.blocks[tx - 1][y].value))
+							this.block_move(x, y, tx, y);
+						else if (this.blocks[x][y].value == this.blocks[tx - 1][y].value) // Fusion
+							this.block_fusion(x, y, tx - 1, y);
+						else if (this.blocks[tx - 1][y].value == -1) // Poison
+							this.block_to_poison(x, y, tx - 1, y);
+						else if (this.blocks[tx - 1][y].value <= -2 && this.blocks[tx - 1][y].value >= -4)
+							this.block_move(x, y, tx, y);
+						else if (this.blocks[tx - 1][y].value == -5) // Skull
+							this.block_to_skull(x, y, tx - 1, y);
+					}
+					else if (this.blocks[x][y].value == -1) // Poison block
+					{
+						if (tx == 0 || this.blocks[tx - 1][y].value < 0)
+							this.block_move(x, y, tx, y);
+						else
+							this.poison_to_block(x, y, tx - 1, y);
+					}
+					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
+					{
+						if (tx != x)
+							this.wall_move(x, y, tx, y, 3);
+					}
+					else if (this.blocks[x][y].value == -5) // Skull block
+					{
+						if (tx == 0 || this.blocks[tx - 1][y].value < 0)
+							this.block_move(x, y, tx, y);
+						else
+							this.skull_to_block(x, y, tx - 1, y);
+					}
+				}
+			}
+		}
 	},
 
 	block_move: function(px, py, dx, dy)
@@ -269,6 +405,41 @@ var Game =
 		{
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
+		}, 100);
+	},
+
+	wall_move: function(px, py, dx, dy, d)
+	{
+		var tmp_wall = this.blocks[px][py];
+		this.blocks[px][py] = 0;
+		--tmp_wall.value;
+		tmp_wall.dom.style.left = dx * 100 + 10 + "px";
+		tmp_wall.dom.style.top = dy * 100 + 10 + "px";
+		if (tmp_wall.value > -5)
+			this.blocks[dx][dy] = tmp_wall;
+		else
+			this.blocks[dx][dy] = 0;
+		setTimeout(function()
+		{
+			if (tmp_wall.value == -3)
+			{
+				tmp_wall.dom.classList.remove("wall_01");
+				tmp_wall.dom.classList.add("wall_02");
+			}
+			else if (tmp_wall.value == -4)
+			{
+				tmp_wall.dom.classList.remove("wall_02");
+				tmp_wall.dom.classList.add("wall_03");
+			}
+			else if (tmp_wall.value == -5)
+			{
+				tmp_wall.dom.parentNode.removeChild(tmp_wall.dom);
+			}
+
+			if (d == 0) Reaper.shake_top();
+			else if (d == 1) Reaper.shake_right();
+			else if (d == 2) Reaper.shake_bottom();
+			else if (d == 3) Reaper.shake_left();
 		}, 100);
 	},
 
