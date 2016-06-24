@@ -51,5 +51,15 @@ var Reaper =
 		{
 			Reaper.text.innerHTML = t;
 		}, delay);
+	},
+
+	anim_poison: function(block)
+	{
+		block.dom.classList.add("anim_poison");
+		setTimeout(function()
+		{
+			block.dom.classList.remove("anim_poison");
+			block.dom.style.backgroundColor = define_color(block.value);
+		}, 100);
 	}
 }

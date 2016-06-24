@@ -67,7 +67,7 @@ var Game =
 		var n = rand_range(0, 99);
 		if (n >= 10)
 		{
-			this.blocks[x][y].value = rand_range(1, 2);
+			this.blocks[x][y].value = 2;
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
 			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
 		}
@@ -87,7 +87,7 @@ var Game =
 			this.blocks[x][y].dom.classList.add("skull");
 		}
 		this.board.appendChild(this.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
+		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
 	},
 
 	find_pos: function()
@@ -127,33 +127,24 @@ var Game =
 		{
 			for (var y = 1; y < 4; ++y)
 			{
-				if (this.blocks[x][y])
+				if (this.blocks[x][y]) // Normal block
 				{
-					var ty = y;
-					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
-						--ty;
-					if (ty == 0) // Full top
+					if (this.blocks[x][y].value > 0)
 					{
-						var tmp_block = this.blocks[x][y];
-						this.blocks[x][y] = 0;
-						this.blocks[x][ty] = tmp_block;
-						this.blocks[x][ty].dom.style.top = 100 * ty + 10 + "px";
-					}
-					else if (this.blocks[x][ty - 1].value == this.blocks[x][y].value && this.blocks[x][y].value > 0) // Fusion
-					{
-
+						var ty = y;
+						while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
+							--ty;
+						if (ty == 0 || (this.blocks[x][y].value != this.blocks[x][ty - 1].value && this.blocks[x][ty - 1].value > 0))
+							this.block_move(x, y, x, ty);
+						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value)
+							this.block_fusion(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value == -1)
+							this.block_to_poison(x, y, x, ty - 1);
+						else if (this.blocks[x][ty - 1].value == -5)
+							this.block_to_skull(x, y, x, ty - 1);
 					}
 				}
 			}
-			// if (this.blocks[x][y])
-			// {
-			// 	if (!this.blocks[x][y -1])
-			// 	{
-			// 		var tmp_block = this.blocks[x][y];
-			// 		this.blocks[x][y] = 0;
-			// 		this.blocks[x][y - 1] = tmp_block;
-			// 		this.blocks[x][y - 1].dom.style.top = 100 * (y - 1) + 10 + "px";
-			// 	}
 		}
 	},
 
@@ -170,6 +161,51 @@ var Game =
 	move_left: function()
 	{
 		
+	},
+
+	block_move: function(px, py, dx, dy)
+	{
+		var tmp_block = this.blocks[px][py];
+		this.blocks[px][py] = 0;
+		this.blocks[dx][dy] = tmp_block;
+		this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
+		this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
+	},
+
+	block_fusion: function(px, py, dx, dy)
+	{
+		this.blocks[dx][dy].value *= 2;
+		this.blocks[dx][dy].dom.innerHTML = this.blocks[dx][dy].value;
+		var tmp_block = this.blocks[px][py];
+		this.blocks[px][py] = 0;
+		tmp_block.dom.style.zIndex = 3;
+		tmp_block.dom.style.left = this.blocks[dx][dy].dom.style.left;
+		tmp_block.dom.style.top = this.blocks[dx][dy].dom.style.top;
+		setTimeout(function() { tmp_block.dom.parentNode.removeChild(tmp_block.dom); }, 100);
+	},
+
+	block_to_poison: function(px, py, dx, dy)
+	{
+		var tmp_block = this.blocks[px][py];
+		var tmp_poison = this.blocks[dx][dy];
+
+		this.blocks[px][py] = 0;
+		this.blocks[dx][dy] = tmp_block;
+		if (tmp_block.value > 1)
+		{
+			tmp_block.value /= 2;
+			tmp_block.dom.innerHTML = tmp_block.value;
+		}
+		tmp_poison.dom.style.zIndex = 3;
+		tmp_block.dom.style.left = tmp_poison.dom.style.left;
+		tmp_block.dom.style.top = tmp_poison.dom.style.top;
+		Reaper.anim_poison(tmp_block);
+		setTimeout(function() { tmp_poison.dom.parentNode.removeChild(tmp_poison.dom); }, 100);
+	},
+
+	block_to_skull: function(px, py, dx, dy)
+	{
+
 	},
 
 	log_blocks: function()
