@@ -2,7 +2,7 @@ var Audio =
 {
 	bgm: undefined,
 	snd: [],
-	vol: 0.5,
+	vol: 0.3,
 
 	init: function()
 	{
@@ -12,18 +12,21 @@ var Audio =
 		this.bgm.loop = true;
 
 		var reaper = document.createElement("audio");
+		var laugh = document.createElement("audio");
 		var move = document.createElement("audio");
 		var poison = document.createElement("audio");
 		var wall = document.createElement("audio");
 		var skull = document.createElement("audio");
 
 		reaper.src = "snd/reaper.wav";
+		laugh.src = "snd/laugh.wav";
 		move.src = "snd/move.wav";
 		poison.src = "snd/poison.wav";
 		wall.src = "snd/wall.wav";
 		skull.src = "snd/skull.wav";
 		
 		this.snd["reaper"] = reaper;
+		this.snd["laugh"] = laugh;
 		this.snd["move"] = move;
 		this.snd["poison"] = poison;
 		this.snd["wall"] = wall;
@@ -47,12 +50,13 @@ var Audio =
 
 	set_bgm_volume: function(v)
 	{
-		this.bgm.volume = v;
+		this.bgm.volume = 0;
 	},
 
 	set_snd_volume: function(v)
 	{
 		this.snd["reaper"].volume = v;
+		this.snd["laugh"].volume = v * 2;
 		this.snd["move"].volume = v;
 		this.snd["poison"].volume = v;
 		this.snd["wall"].volume = v;

@@ -4,6 +4,7 @@ var Game =
 	board: document.getElementById("board"),
 	blocks: undefined,
 	score: 0,
+	processing: false,
 
 	init: function()
 	{
@@ -64,19 +65,19 @@ var Game =
 		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 
-		var n = rand_range(0, 199);
-		if (n >= 100)
+		var n = rand_range(0, 99);
+		if (n >= 10)
 		{
-			this.blocks[x][y].value = 2;
+			this.blocks[x][y].value = rand_range(1, 2);
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
 			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
 		}
-		else if (n >= 60) // poison
+		else if (n >= 6) // poison
 		{
 			this.blocks[x][y].value = -1;
 			this.blocks[x][y].dom.classList.add("poison");
 		}
-		else if (n >= 20) // wall
+		else if (n >= 2) // wall
 		{
 			this.blocks[x][y].value = -2;
 			this.blocks[x][y].dom.classList.add("wall_01");
@@ -113,12 +114,21 @@ var Game =
 
 	move: function(d)
 	{
-		if (d == 0) this.move_up();
-		else if (d == 1) this.move_right();
-		else if (d == 2) this.move_down();
-		else if (d == 3) this.move_left();
-		this.add_block();
-		this.log_blocks();
+		if (!this.processing)
+		{
+			this.processing = true;
+			if (d == 0) this.move_up();
+			else if (d == 1) this.move_right();
+			else if (d == 2) this.move_down();
+			else if (d == 3) this.move_left();
+			var self = this;
+			setTimeout(function()
+			{
+				self.processing = false;
+			}, 100);
+			this.add_block();
+			this.log_blocks();
+		}
 	},
 
 	move_up: function()
@@ -171,46 +181,46 @@ var Game =
 
 	move_right: function()
 	{
-		for (var x = 0; x < 4; ++x)
+		for (var y = 0; y < 4; ++y)
 		{
-			for (var y = 1; y < 4; ++y)
+			for (var x = 2; x >= 0; --x)
 			{
 				if (this.blocks[x][y]) // Normal block
 				{
-					var ty = y;
-					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
-						--ty;
+					var tx = x;
+					while (tx + 1 < 4 && !this.blocks[tx + 1][y])
+						++tx;
 					if (this.blocks[x][y].value > 0)
 					{
-						if (ty == 0 || (this.blocks[x][ty - 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty - 1].value))
-							this.block_move(x, y, x, ty);
-						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value) // Fusion
-							this.block_fusion(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value == -1) // Poison
-							this.block_to_poison(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value <= -2 && this.blocks[x][ty - 1].value >= -4)
-							this.block_move(x, y, x, ty);
-						else if (this.blocks[x][ty - 1].value == -5) // Skull
-							this.block_to_skull(x, y, x, ty - 1);
+						if (tx == 3 || (this.blocks[tx + 1][y].value > 0 && this.blocks[x][y].value != this.blocks[tx + 1][y].value))
+							this.block_move(x, y, tx, y);
+						else if (this.blocks[x][y].value == this.blocks[tx + 1][y].value) // Fusion
+							this.block_fusion(x, y, tx + 1, y);
+						else if (this.blocks[tx + 1][y].value == -1) // Poison
+							this.block_to_poison(x, y, tx + 1, y);
+						else if (this.blocks[tx + 1][y].value <= -2 && this.blocks[tx + 1][y].value >= -4)
+							this.block_move(x, y, tx, y);
+						else if (this.blocks[tx + 1][y].value == -5) // Skull
+							this.block_to_skull(x, y, tx + 1, y);
 					}
 					else if (this.blocks[x][y].value == -1) // Poison block
 					{
-						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
-							this.block_move(x, y, x, ty);
+						if (tx == 3 || this.blocks[tx + 1][y].value < 0)
+							this.block_move(x, y, tx, y);
 						else
-							this.poison_to_block(x, y, x, ty - 1);
+							this.poison_to_block(x, y, tx + 1, y);
 					}
 					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
 					{
-						if (ty != y)
-							this.wall_move(x, y, x, ty, 0);
+						if (tx != x)
+							this.wall_move(x, y, tx, y, 1);
 					}
 					else if (this.blocks[x][y].value == -5) // Skull block
 					{
-						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
-							this.block_move(x, y, x, ty);
+						if (tx == 3 || this.blocks[tx + 1][y].value < 0)
+							this.block_move(x, y, tx, y);
 						else
-							this.skull_to_block(x, y, x, ty - 1);
+							this.skull_to_block(x, y, tx + 1, y);
 					}
 				}
 			}
@@ -221,32 +231,32 @@ var Game =
 	{
 		for (var x = 0; x < 4; ++x)
 		{
-			for (var y = 1; y < 4; ++y)
+			for (var y = 2; y >= 0; --y)
 			{
 				if (this.blocks[x][y]) // Normal block
 				{
 					var ty = y;
-					while (ty - 1 >= 0 && !this.blocks[x][ty - 1])
-						--ty;
+					while (ty + 1 < 4 && !this.blocks[x][ty + 1])
+						++ty;
 					if (this.blocks[x][y].value > 0)
 					{
-						if (ty == 0 || (this.blocks[x][ty - 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty - 1].value))
+						if (ty == 3 || (this.blocks[x][ty + 1].value > 0 && this.blocks[x][y].value != this.blocks[x][ty + 1].value))
 							this.block_move(x, y, x, ty);
-						else if (this.blocks[x][y].value == this.blocks[x][ty - 1].value) // Fusion
-							this.block_fusion(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value == -1) // Poison
-							this.block_to_poison(x, y, x, ty - 1);
-						else if (this.blocks[x][ty - 1].value <= -2 && this.blocks[x][ty - 1].value >= -4)
+						else if (this.blocks[x][y].value == this.blocks[x][ty + 1].value) // Fusion
+							this.block_fusion(x, y, x, ty + 1);
+						else if (this.blocks[x][ty + 1].value == -1) // Poison
+							this.block_to_poison(x, y, x, ty + 1);
+						else if (this.blocks[x][ty + 1].value <= -2 && this.blocks[x][ty + 1].value >= -4)
 							this.block_move(x, y, x, ty);
-						else if (this.blocks[x][ty - 1].value == -5) // Skull
-							this.block_to_skull(x, y, x, ty - 1);
+						else if (this.blocks[x][ty + 1].value == -5) // Skull
+							this.block_to_skull(x, y, x, ty + 1);
 					}
 					else if (this.blocks[x][y].value == -1) // Poison block
 					{
-						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+						if (ty == 3 || this.blocks[x][ty + 1].value < 0)
 							this.block_move(x, y, x, ty);
 						else
-							this.poison_to_block(x, y, x, ty - 1);
+							this.poison_to_block(x, y, x, ty + 1);
 					}
 					else if (this.blocks[x][y].value <= -2 && this.blocks[x][y].value >= -4) // Wall block
 					{
@@ -255,10 +265,10 @@ var Game =
 					}
 					else if (this.blocks[x][y].value == -5) // Skull block
 					{
-						if (ty == 0 || this.blocks[x][ty - 1].value < 0)
+						if (ty == 3 || this.blocks[x][ty + 1].value < 0)
 							this.block_move(x, y, x, ty);
 						else
-							this.skull_to_block(x, y, x, ty - 1);
+							this.skull_to_block(x, y, x, ty + 1);
 					}
 				}
 			}
@@ -327,6 +337,7 @@ var Game =
 	{
 		this.blocks[dx][dy].value *= 2;
 		this.blocks[dx][dy].dom.innerHTML = this.blocks[dx][dy].value;
+		this.blocks[dx][dy].dom.style.backgroundColor = define_color(this.blocks[dx][dy].value);
 		var tmp_block = this.blocks[px][py];
 		this.blocks[px][py] = 0;
 		tmp_block.dom.style.zIndex = 3;
@@ -392,6 +403,7 @@ var Game =
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
 			Audio.play_snd("skull");
+			Reaper.laugh();
 		}, 100);
 	},
 
@@ -410,6 +422,7 @@ var Game =
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
 			Audio.play_snd("skull");
+			Reaper.laugh();
 		}, 100);
 	},
 
@@ -417,34 +430,42 @@ var Game =
 	{
 		var tmp_wall = this.blocks[px][py];
 		this.blocks[px][py] = 0;
-		--tmp_wall.value;
-		tmp_wall.dom.style.left = dx * 100 + 10 + "px";
-		tmp_wall.dom.style.top = dy * 100 + 10 + "px";
-		if (tmp_wall.value > -5)
-			this.blocks[dx][dy] = tmp_wall;
-		else
-			this.blocks[dx][dy] = 0;
-		setTimeout(function()
+		if (tmp_wall.value == -4)
 		{
-			if (tmp_wall.value == -3)
-			{
-				tmp_wall.dom.classList.remove("wall_01");
-				tmp_wall.dom.classList.add("wall_02");
-			}
-			else if (tmp_wall.value == -4)
-			{
-				tmp_wall.dom.classList.remove("wall_02");
-				tmp_wall.dom.classList.add("wall_03");
-			}
-			else if (tmp_wall.value == -5)
+			tmp_wall.dom.style.left = dx * 100 + 10 + "px";
+			tmp_wall.dom.style.top = dy * 100 + 10 + "px";
+			setTimeout(function()
 			{
 				tmp_wall.dom.parentNode.removeChild(tmp_wall.dom);
-			}
-
-			if (d == 0) Reaper.shake_top();
-			else if (d == 1) Reaper.shake_right();
-			else if (d == 2) Reaper.shake_bottom();
-			else if (d == 3) Reaper.shake_left();
+			}, 100);
+		}
+		else
+		{
+			--tmp_wall.value;
+			this.blocks[dx][dy] = tmp_wall;
+			this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
+			this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
+			var self = this;
+			setTimeout(function()
+			{
+				if (self.blocks[dx][dy].value == -3)
+				{
+					self.blocks[dx][dy].dom.classList.remove("wall_01");
+					self.blocks[dx][dy].dom.classList.add("wall_02");
+				}
+				else if (self.blocks[dx][dy].value == -4)
+				{
+					self.blocks[dx][dy].dom.classList.remove("wall_02");
+					self.blocks[dx][dy].dom.classList.add("wall_03");
+				}
+			}, 100);
+		}
+		setTimeout(function()
+		{
+			if (d == 0) Animation.shake_top();
+			else if (d == 1) Animation.shake_right();
+			else if (d == 2) Animation.shake_bottom();
+			else if (d == 3) Animation.shake_left();
 			Audio.play_snd("wall");
 		}, 100);
 	},
