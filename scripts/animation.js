@@ -45,4 +45,28 @@ var Animation =
 			Game.main.classList.remove("shake_left");
 		}, 100);
 	},
+
+	poison: function(block)
+	{
+		block.dom.classList.add("anim_poison");
+		setTimeout(function()
+		{
+			block.dom.classList.remove("anim_poison");
+			block.dom.style.backgroundColor = define_color(block.value);
+		}, 100);
+	},
+
+	skull: function(block)
+	{
+		block.dom.classList.add("anim_skull");
+	},
+
+	scale: function(block)
+	{
+		block.dom.classList.remove("anim_scale");
+		setTimeout(function()
+		{
+			block.dom.classList.add("anim_scale");
+		}, 20);
+	}
 }

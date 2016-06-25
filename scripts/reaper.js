@@ -3,26 +3,61 @@ var Reaper =
 	dom: document.getElementById("reaper"),
 	text: document.getElementById("reaper_text"),
 
-	move: function()
+	move: function(callback)
 	{
+		var self = this;
 		this.dom.style.left = (Game.main.offsetLeft - 400) + "px";
 		this.dom.style.bottom = (window.innerHeight - Game.main.offsetTop) + "px";
 		setTimeout(function()
 		{
-			Reaper.dom.style.transition = "all 100ms";
-			Reaper.dom.style.left = (Game.main.offsetLeft - 360) + "px";
+			self.dom.style.transition = "all 100ms";
+			self.dom.style.left = (Game.main.offsetLeft - 360) + "px";
 			setTimeout(function()
 			{
-				Reaper.dom.style.left = (Game.main.offsetLeft - 400) + "px";
-				Reaper.dom.style.transition = "all 250ms ease";
+				self.dom.style.left = (Game.main.offsetLeft - 400) + "px";
+				self.dom.style.transition = "all 250ms ease";
 				setTimeout(function()
 				{
-					Reaper.dom.style.left = "32px";
-					Reaper.dom.style.bottom = "32px";
+					self.dom.style.left = "32px";
+					self.dom.style.bottom = "32px";
 				}, 200);
 			}, 100);
 			Animation.shake();
+			callback();
 		}, 500);
+	},
+
+	move_poison: function()
+	{
+		var self = this;
+		this.speak("Oh !");
+		Audio.play_snd("reaper_speak");
+		setTimeout(function(){ self.speak("Look at that !"); }, 800);
+		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
+		setTimeout(function(){ self.move(Game.add_poison);}, 4000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
+	},
+
+	move_wall: function()
+	{
+		var self = this;
+		this.speak("Oh !");
+		Audio.play_snd("reaper_speak");
+		setTimeout(function(){ self.speak("Look at that !"); }, 800);
+		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
+		setTimeout(function(){ self.move(Game.add_wall);}, 4000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
+	},
+
+	move_skull: function()
+	{
+		var self = this;
+		this.speak("Oh !");
+		Audio.play_snd("reaper_speak");
+		setTimeout(function(){ self.speak("Look at that !"); }, 800);
+		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
+		setTimeout(function(){ self.move(Game.add_skull);}, 4000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
 	},
 
 	speak: function(s)
@@ -44,25 +79,10 @@ var Reaper =
 		}, delay);
 	},
 
-	anim_poison: function(block)
-	{
-		block.dom.classList.add("anim_poison");
-		setTimeout(function()
-		{
-			block.dom.classList.remove("anim_poison");
-			block.dom.style.backgroundColor = define_color(block.value);
-		}, 100);
-	},
-
-	anim_skull: function(block)
-	{
-		block.dom.classList.add("anim_skull");
-	},
-
 	laugh: function()
 	{
 		this.dom.className = "laugh";
-		Audio.play_snd("laugh");
+		Audio.play_snd("reaper_laugh");
 		var self = this;
 		setTimeout(function()
 		{

@@ -37,6 +37,8 @@ ul { padding: 0px;}
 .anim_poison { animation: anim_poison 100ms;}
 .anim_skull { animation: anim_skull 100ms;}
 
+.anim_scale { animation: anim_scale 100ms;}
+
 @keyframes shake
 {
 	0% { left: 48%; top: 52%;}
@@ -85,4 +87,11 @@ ul { padding: 0px;}
 	40% { margin: 0px 5px 0px 0px;}
 	80% { margin: 0px 0px 0px 5px;}
 	100% { margin: 0px 0px 0px 0px; background-color: #c00;}
+}
+
+@keyframes anim_scale
+{
+	0% { transform: scale(1);}
+	50% { transform: scale(1.05);}
+	100% { transform: scale(1);}
 }
