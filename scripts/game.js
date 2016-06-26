@@ -10,9 +10,19 @@ var Game =
 
 	init: function()
 	{
+		Res.init();
+		Res.load();
+	},
+
+	init_game: function()
+	{
+		Inputs.init();
 		this.init_blocks();
 		this.add_first_block();
 		this.log_blocks();
+		Ui.hide_loading_div();
+		Ui.display_main();
+		Res.play_snd("dulcet");
 	},
 
 	init_blocks: function()
@@ -45,7 +55,7 @@ var Game =
 		this.board.appendChild(this.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
 		Reaper.speak("...")
-		setTimeout(function(){ Reaper.speak("What ?"); Audio.play_snd("reaper_speak"); }, 500);
+		setTimeout(function(){ Reaper.speak("What ?"); Res.play_snd("reaper_speak"); }, 500);
 		setTimeout(function(){ Reaper.speak("You thought you were going to play with some 2 and 4 ?"); }, 1500);
 		
 	},
@@ -73,7 +83,6 @@ var Game =
 			this.blocks[x][y].value = rand_range(1, 2);
 			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
 			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
-			console.log('a');
 		}
 		else if (this.state == 1)
 		{
@@ -452,7 +461,7 @@ var Game =
 		this.blocks[dx][dy] = tmp_block;
 		this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
 		this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
-		Audio.play_snd("move");
+		Res.play_snd("move");
 	},
 
 	block_fusion: function(px, py, dx, dy)
@@ -490,7 +499,7 @@ var Game =
 		setTimeout(function()
 		{
 			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
-			Audio.play_snd("poison");
+			Res.play_snd("poison");
 		}, 100);
 	},
 
@@ -511,7 +520,7 @@ var Game =
 		setTimeout(function()
 		{
 			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
-			Audio.play_snd("poison");
+			Res.play_snd("poison");
 		}, 100);
 	},
 
@@ -530,7 +539,7 @@ var Game =
 		{
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
-			Audio.play_snd("skull");
+			Res.play_snd("skull");
 			Reaper.laugh();
 		}, 100);
 	},
@@ -550,7 +559,7 @@ var Game =
 		{
 			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
 			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
-			Audio.play_snd("skull");
+			Res.play_snd("skull");
 			Reaper.laugh();
 		}, 100);
 	},
@@ -596,7 +605,7 @@ var Game =
 			else if (d == 1) Animation.shake_right();
 			else if (d == 2) Animation.shake_bottom();
 			else if (d == 3) Animation.shake_left();
-			Audio.play_snd("wall");
+			Res.play_snd("wall");
 		}, 100);
 	},
 

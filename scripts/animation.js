@@ -7,7 +7,7 @@ var Animation =
 		{
 			Game.main.classList.remove("shake");
 		}, 250);
-		Audio.play_snd("reaper");
+		Res.play_snd("reaper_hit");
 	},
 
 	shake_top: function()

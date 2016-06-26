@@ -31,33 +31,33 @@ var Reaper =
 	{
 		var self = this;
 		this.speak("Oh !");
-		Audio.play_snd("reaper_speak");
+		Res.play_snd("reaper_speak");
 		setTimeout(function(){ self.speak("Look at that !"); }, 800);
 		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
 		setTimeout(function(){ self.move(Game.add_poison);}, 4000);
-		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
 	},
 
 	move_wall: function()
 	{
 		var self = this;
 		this.speak("Oh !");
-		Audio.play_snd("reaper_speak");
+		Res.play_snd("reaper_speak");
 		setTimeout(function(){ self.speak("Look at that !"); }, 800);
 		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
 		setTimeout(function(){ self.move(Game.add_wall);}, 4000);
-		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
 	},
 
 	move_skull: function()
 	{
 		var self = this;
 		this.speak("Oh !");
-		Audio.play_snd("reaper_speak");
+		Res.play_snd("reaper_speak");
 		setTimeout(function(){ self.speak("Look at that !"); }, 800);
 		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
 		setTimeout(function(){ self.move(Game.add_skull);}, 4000);
-		setTimeout(function(){ self.speak("Ha ha ha !"); Audio.play_snd("reaper_laugh"); }, 6000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
 	},
 
 	speak: function(s)
@@ -82,7 +82,7 @@ var Reaper =
 	laugh: function()
 	{
 		this.dom.className = "laugh";
-		Audio.play_snd("reaper_laugh");
+		Res.play_snd("reaper_laugh");
 		var self = this;
 		setTimeout(function()
 		{
