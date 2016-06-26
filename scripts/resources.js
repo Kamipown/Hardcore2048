@@ -66,15 +66,14 @@ var Res =
 			this.snd[i] = document.createElement("audio");
 			var sound_loaded = function(event)
 			{
-				event.target.removeEventListener("canplaythrough", sound_loaded, false);
+				event.target.removeEventListener("progress", sound_loaded, false);
 				++self.snd_loaded;
 				Ui.update_loading_progression(self.snd_loaded * 100 / self.snd_paths.length);
 				if (self.snd_loaded == self.snd_paths.length)
 					setTimeout(function() { Game.init_game(); }, 250);
 			}
-			this.snd[i].addEventListener("canplaythrough", sound_loaded, false);
+			this.snd[i].addEventListener("progress", sound_loaded, false, true);
 			this.snd[i].src = this.snd_paths[i];
-			this.snd[i].load();
 		}
 		this.set_snd_settings(1);
 	},
