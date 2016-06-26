@@ -653,7 +653,22 @@ var Game =
 				}
 			}
 		}
-		console.log("end");
+		this.lose();
+	},
+
+	lose: function()
+	{
+		Ui.update_score(0);
+		this.state = 0;
+		this.score = 0;
+		for_each_block(this.blocks, function(block)
+		{
+			if (block)
+				block.dom.parentNode.removeChild(block.dom);
+		});
+		this.init_blocks();
+		this.add_first_block();
+		this.log_blocks();
 	},
 
 	log_blocks: function()

@@ -6,7 +6,6 @@ var Audio =
 
 	init: function()
 	{
-
 		this.bgm = document.createElement("audio");
 		this.bgm.src = "snd/dulcet.mp3";
 		this.bgm.loop = true;
@@ -26,6 +25,20 @@ var Audio =
 		poison.src = "snd/poison.wav";
 		wall.src = "snd/wall.wav";
 		skull.src = "snd/skull.wav";
+
+		// this.bgm.addEventListener('canplaythrough', function()
+		// { 
+		// 	console.log('Snd rdy !');
+		// }, false);
+
+		// var img = new Image;
+		// img.src = "img/reaper/reaper_stand.gif";
+		// img.addEventListener("load", function()
+		// {
+		// 	console.log(this);
+		// 	console.log("Img rdy !");
+		// }, false);
+		// console.log(img);
 		
 		this.snd["reaper"] = reaper;
 		this.snd["reaper_speak"] = reaper_speak;
@@ -66,4 +79,9 @@ var Audio =
 		this.snd["wall"].volume = v * 0.5;
 		this.snd["skull"].volume = v * 0.5;
 	}
+}
+
+function sound_rdy()
+{
+
 }
