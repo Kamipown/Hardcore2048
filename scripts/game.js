@@ -19,7 +19,6 @@ var Game =
 		Inputs.init();
 		this.init_blocks();
 		this.add_first_block();
-		this.log_blocks();
 		Ui.hide_loading_div();
 		Ui.display_main();
 		Ui.display_reaper();
@@ -150,8 +149,9 @@ var Game =
 			Ui.update_wall_count();
 		else if (this.blocks[x][y].value == -5)
 			Ui.update_skull_count();
+		var tmp = this.blocks[x][y].dom;
 		this.board.appendChild(this.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
+		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
 	},
 
 	add_poison: function()
@@ -172,8 +172,9 @@ var Game =
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 		Ui.update_poison_count();
+		var tmp = Game.blocks[x][y].dom;
 		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
+		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
 	},
 
 	add_wall: function()
@@ -194,8 +195,9 @@ var Game =
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 		Ui.update_wall_count();
+		var tmp = Game.blocks[x][y].dom;
 		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
+		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
 	},
 
 	add_skull: function()
@@ -216,8 +218,9 @@ var Game =
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
 		Ui.update_skull_count();
+		var tmp = Game.blocks[x][y].dom;
 		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
+		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
 	},
 
 	find_pos: function()
@@ -456,10 +459,7 @@ var Game =
 		setTimeout(function()
 		{
 			if (self.moved == true)
-			{
 				self.add_block();
-				self.log_blocks();
-			}
 			self.processing = false;
 		}, 100);
 		this.check_lose();
@@ -697,7 +697,6 @@ var Game =
 		});
 		this.init_blocks();
 		this.add_first_block();
-		this.log_blocks();
 		Ui.reset_finish();
 		Inputs.lock = false;
 	},
