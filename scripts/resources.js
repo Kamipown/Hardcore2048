@@ -74,13 +74,15 @@ var Res =
 			}
 			this.snd[i].addEventListener("load", sound_loaded, false);
 			this.snd[i].src = this.snd_paths[i];
+			this.snd[i].load();
 		}
-		this.set_snd_volume(1);
+		this.set_snd_settings(1);
 	},
 
-	set_snd_volume: function(v)
+	set_snd_settings: function(v)
 	{
 		this.snd[0].volume = v * 0.5;
+		this.snd[0].loop = true;
 		this.snd[1].volume = v * 0.5;
 		this.snd[2].volume = v;
 		this.snd[3].volume = v;
