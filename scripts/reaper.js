@@ -29,35 +29,36 @@ var Reaper =
 
 	move_poison: function()
 	{
+		Inputs.lock = true;
 		var self = this;
 		this.speak("Oh !");
 		Res.play_snd("reaper_speak");
 		setTimeout(function(){ self.speak("Look at that !"); }, 800);
 		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
-		setTimeout(function(){ self.move(Game.add_poison);}, 4000);
+		setTimeout(function(){ self.move(Game.add_poison); Inputs.lock = false; }, 4000);
 		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
 	},
 
 	move_wall: function()
 	{
+		Inputs.lock = true;
 		var self = this;
-		this.speak("Oh !");
+		this.speak("Hum...");
 		Res.play_snd("reaper_speak");
-		setTimeout(function(){ self.speak("Look at that !"); }, 800);
-		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
-		setTimeout(function(){ self.move(Game.add_wall);}, 4000);
-		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
+		setTimeout(function(){ self.speak("Maybe this one ?"); }, 800);
+		setTimeout(function(){ self.move(Game.add_wall); Inputs.lock = false;}, 2000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 4000);
 	},
 
 	move_skull: function()
 	{
+		Inputs.lock = true;
 		var self = this;
-		this.speak("Oh !");
+		this.speak("Grrr !");
 		Res.play_snd("reaper_speak");
-		setTimeout(function(){ self.speak("Look at that !"); }, 800);
-		setTimeout(function(){ self.speak("This may be useful for you..."); }, 2000);
-		setTimeout(function(){ self.move(Game.add_skull);}, 4000);
-		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 6000);
+		setTimeout(function(){ self.speak("This block is too damn high !"); }, 800);
+		setTimeout(function(){ self.move(Game.add_skull); Inputs.lock = false;}, 3000);
+		setTimeout(function(){ self.speak("Ha ha ha !"); Res.play_snd("reaper_laugh"); }, 5000);
 	},
 
 	speak: function(s)

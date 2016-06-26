@@ -24,10 +24,11 @@ var Res =
 		this.snd_paths[1] = "snd/reaper_hit.wav";
 		this.snd_paths[2] = "snd/reaper_speak.wav";
 		this.snd_paths[3] = "snd/reaper_laugh.wav";
-		this.snd_paths[4] = "snd/move.wav";
-		this.snd_paths[5] = "snd/poison.wav";
-		this.snd_paths[6] = "snd/wall.wav";
-		this.snd_paths[7] = "snd/skull.wav";
+		this.snd_paths[4] = "snd/reaper_win.wav";
+		this.snd_paths[5] = "snd/move.wav";
+		this.snd_paths[6] = "snd/poison.wav";
+		this.snd_paths[7] = "snd/wall.wav";
+		this.snd_paths[8] = "snd/skull.wav";
 	},
 
 	load: function()
@@ -85,10 +86,11 @@ var Res =
 		this.snd[1].volume = v * 0.5;
 		this.snd[2].volume = v;
 		this.snd[3].volume = v;
-		this.snd[4].volume = v * 0.5;
+		this.snd[4].volume = v;
 		this.snd[5].volume = v * 0.5;
 		this.snd[6].volume = v * 0.5;
 		this.snd[7].volume = v * 0.5;
+		this.snd[8].volume = v * 0.5;
 	},
 
 	play_snd: function(name)
@@ -97,9 +99,10 @@ var Res =
 		if (name == "reaper_hit") this.snd[1].play();
 		if (name == "reaper_speak") this.snd[2].play();
 		if (name == "reaper_laugh") this.snd[3].play();
-		if (name == "move") this.snd[4].play();
-		if (name == "poison") this.snd[5].play();
-		if (name == "wall") this.snd[6].play();
-		if (name == "skull") this.snd[7].play();
+		if (name == "reaper_win") this.snd[4].play();
+		if (name == "move") this.snd[5].play();
+		if (name == "poison") this.snd[6].play();
+		if (name == "wall") this.snd[7].play();
+		if (name == "skull") this.snd[8].play();
 	}
 }

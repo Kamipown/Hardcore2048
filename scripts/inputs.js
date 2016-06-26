@@ -4,6 +4,7 @@ var Inputs =
 	right: false,
 	down: false,
 	left: false,
+	lock: true,
 
 	init: function()
 	{
@@ -13,29 +14,28 @@ var Inputs =
 
 	key_down: function(event)
 	{
-		/* DEBUG */ if (event.keyCode == 97 || event.keyCode == 49) Game.log_blocks();
-		/* DEBUG */ if (event.keyCode == 98 || event.keyCode == 50) Reaper.move();
-		/* DEBUG */ if (event.keyCode == 99 || event.keyCode == 51) Reaper.speak("fbgseilf sfsegfuig siluefgliu gsefligseli gfilseuf sef");
-
-		if ((event.keyCode == 38 || event.keyCode == 87) && !Inputs.up)
+		if (Inputs.lock == false)
 		{
-			Inputs.up = true;
-			Game.move(0);
-		}
-		else if ((event.keyCode == 39 || event.keyCode == 68) && !Inputs.right)
-		{
-			Inputs.right = true;
-			Game.move(1);
-		}
-		else if ((event.keyCode == 40 || event.keyCode == 83) && !Inputs.down)
-		{
-			Inputs.down = true;
-			Game.move(2);
-		}
-		else if ((event.keyCode == 37 || event.keyCode == 65) && !Inputs.left)
-		{
-			Inputs.left = true;
-			Game.move(3);
+			if ((event.keyCode == 38 || event.keyCode == 87) && !Inputs.up)
+			{
+				Inputs.up = true;
+				Game.move(0);
+			}
+			else if ((event.keyCode == 39 || event.keyCode == 68) && !Inputs.right)
+			{
+				Inputs.right = true;
+				Game.move(1);
+			}
+			else if ((event.keyCode == 40 || event.keyCode == 83) && !Inputs.down)
+			{
+				Inputs.down = true;
+				Game.move(2);
+			}
+			else if ((event.keyCode == 37 || event.keyCode == 65) && !Inputs.left)
+			{
+				Inputs.left = true;
+				Game.move(3);
+			}
 		}
 	},
 

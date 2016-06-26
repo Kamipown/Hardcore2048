@@ -22,7 +22,12 @@ var Game =
 		this.log_blocks();
 		Ui.hide_loading_div();
 		Ui.display_main();
+		Ui.display_reaper();
 		Res.play_snd("dulcet");
+		Reaper.speak("...")
+		setTimeout(function(){ Reaper.speak("What ?"); Res.play_snd("reaper_speak"); }, 500);
+		setTimeout(function(){ Reaper.speak("You thought you were going to play with some 2 and 4 ?"); }, 1500);
+		Inputs.lock = false;
 	},
 
 	init_blocks: function()
@@ -54,9 +59,6 @@ var Game =
 
 		this.board.appendChild(this.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
-		Reaper.speak("...")
-		setTimeout(function(){ Reaper.speak("What ?"); Res.play_snd("reaper_speak"); }, 500);
-		setTimeout(function(){ Reaper.speak("You thought you were going to play with some 2 and 4 ?"); }, 1500);
 		
 	},
 
@@ -96,6 +98,7 @@ var Game =
 			{
 				this.blocks[x][y].value = -1;
 				this.blocks[x][y].dom.classList.add("poison");
+
 			}
 		}
 		else if (this.state == 2)
@@ -141,6 +144,12 @@ var Game =
 				this.blocks[x][y].dom.classList.add("skull");
 			}
 		}
+		if (this.blocks[x][y].value == -1)
+			Ui.update_poison_count();
+		else if (this.blocks[x][y].value == -2)
+			Ui.update_wall_count();
+		else if (this.blocks[x][y].value == -5)
+			Ui.update_skull_count();
 		this.board.appendChild(this.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
 	},
@@ -162,6 +171,7 @@ var Game =
 		Game.blocks[x][y].dom.className = "block poison";
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
+		Ui.update_poison_count();
 		Game.board.appendChild(Game.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
 	},
@@ -183,6 +193,7 @@ var Game =
 		Game.blocks[x][y].dom.className = "block wall_01";
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
+		Ui.update_wall_count();
 		Game.board.appendChild(Game.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
 	},
@@ -204,6 +215,7 @@ var Game =
 		Game.blocks[x][y].dom.className = "block skull";
 		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
 		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
+		Ui.update_skull_count();
 		Game.board.appendChild(Game.blocks[x][y].dom);
 		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 20);
 	},
@@ -667,9 +679,17 @@ var Game =
 
 	lose: function()
 	{
+		Inputs.lock = true;
+		Res.play_snd("reaper_win");
+		Ui.display_finish();
+	},
+
+	retry: function()
+	{
 		Ui.update_score(0);
 		this.state = 0;
 		this.score = 0;
+		Ui.reset_counts();
 		for_each_block(this.blocks, function(block)
 		{
 			if (block)
@@ -678,6 +698,8 @@ var Game =
 		this.init_blocks();
 		this.add_first_block();
 		this.log_blocks();
+		Ui.reset_finish();
+		Inputs.lock = false;
 	},
 
 	log_blocks: function()

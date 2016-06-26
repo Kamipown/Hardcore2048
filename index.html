@@ -7,11 +7,32 @@
 		<link rel="icon" type="image/png" href="img/favicon.png"/>
 	</head>
 	<body>
+		<div id="loading_div">
+			<div id="progression_div"></div>
+			<p id="progression_text">0%</p>
+			<p id="loading_state_text"></p>
+		</div>
+
 		<main id="main" role="main">
 			<section class="menu_section">
 				<div class="score_div">
 					<h2>Score :</h2>
 					<p id="score_text">0</p>
+					<div>
+						<img src="img/blocks/poison.png">
+						<p id="poison_count">x0</p>
+						<span>This block will divide by 2 the value of the targeted block.</span>
+					</div>
+					<div>
+						<img src="img/blocks/skull.png">
+						<p id="skull_count">x0</p>
+						<span>This block will destroy the targeted block.</span>
+					</div>
+					<div>
+						<img src="img/blocks/wall_01.png">
+						<p id="wall_count">x0</p>
+						<span>Move this block 3 times to break it..</span>
+					</div>
 				</div>
 			</section>
 			<section id="board" class="game_section">
@@ -22,10 +43,9 @@
 			</section>
 		</main>
 
-		<div id="loading_div">
-			<div id="progression_div"></div>
-			<p id="progression_text">0%</p>
-			<p id="loading_state_text"></p>
+		<div id="finish_div">
+			<p id="finish_score">2048</p>
+			<input type="button" value="Play Again" onclick="Game.retry();">
 		</div>
 
 		<div id="reaper" class="stand"></div>
