@@ -48,179 +48,96 @@ var Game =
 		var y = rand_range(0, 3);
 
 		this.blocks[x][y] = new block();
-		this.blocks[x][y].value = 1;
-		this.blocks[x][y].dom = document.createElement("span");
-		this.blocks[x][y].dom.className = "block";
-		this.blocks[x][y].dom.innerHTML = 1;
-		this.blocks[x][y].dom.style.backgroundColor = define_color(1);
-		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
-		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
-
-		this.board.appendChild(this.blocks[x][y].dom);
-		setTimeout(function(){ Game.blocks[x][y].dom.style.opacity = 1; }, 10);
-		
+		this.blocks[x][y].create();
+		this.blocks[x][y].set_value(1);
+		this.blocks[x][y].set_position(x, y);
+		this.blocks[x][y].show();
 	},
 
 	add_block: function()
 	{
 		var pos = this.find_pos();
-		if (!pos)
-		{
-			console.log("Not enough space for a new block.");
-			return ;
-		}
+		if (!pos) return ;
 		var x = pos.x;
 		var y = pos.y;
 
 		this.blocks[x][y] = new block();
-		this.blocks[x][y].dom = document.createElement("span");
-		this.blocks[x][y].dom.className = "block";
-		this.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
-		this.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
+		this.blocks[x][y].create();
+		this.blocks[x][y].set_position(x, y);
 
 		var n = rand_range(0, 99);
 		if (this.state == 0)
-		{
-			this.blocks[x][y].value = rand_range(1, 2);
-			this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
-			this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
-		}
+			this.blocks[x][y].set_value(rand_range(1, 2));
 		else if (this.state == 1)
 		{
 			if (n >= 4)
-			{
-				this.blocks[x][y].value = rand_range(1, 2);
-				this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
-				this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
-			}
-			else // poison
-			{
-				this.blocks[x][y].value = -1;
-				this.blocks[x][y].dom.classList.add("poison");
-
-			}
+				this.blocks[x][y].set_value(rand_range(1, 2));
+			else
+				this.blocks[x][y].set_poison();
 		}
 		else if (this.state == 2)
 		{
 			if (n >= 8)
-			{
-				this.blocks[x][y].value = rand_range(1, 2);
-				this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
-				this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
-			}
-			else if (n >= 4) // poison
-			{
-				this.blocks[x][y].value = -1;
-				this.blocks[x][y].dom.classList.add("poison");
-			}
-			else // wall
-			{
-				this.blocks[x][y].value = -2;
-				this.blocks[x][y].dom.classList.add("wall_01");
-			}
+				this.blocks[x][y].set_value(rand_range(1, 2));
+			else if (n >= 4)
+				this.blocks[x][y].set_poison();
+			else
+				this.blocks[x][y].set_wall();
 		}
 		else if (this.state == 3)
 		{
 			if (n >= 10)
-			{
-				this.blocks[x][y].value = rand_range(1, 2);
-				this.blocks[x][y].dom.innerHTML = this.blocks[x][y].value;
-				this.blocks[x][y].dom.style.backgroundColor = define_color(this.blocks[x][y].value);
-			}
-			else if (n >= 6) // poison
-			{
-				this.blocks[x][y].value = -1;
-				this.blocks[x][y].dom.classList.add("poison");
-			}
-			else if (n >= 2) // wall
-			{
-				this.blocks[x][y].value = -2;
-				this.blocks[x][y].dom.classList.add("wall_01");
-			}
-			else // skull
-			{
-				this.blocks[x][y].value = -5;
-				this.blocks[x][y].dom.classList.add("skull");
-			}
+				this.blocks[x][y].set_value(rand_range(1, 2));
+			else if (n >= 6)
+				this.blocks[x][y].set_poison();
+			else if (n >= 2)
+				this.blocks[x][y].set_wall();
+			else
+				this.blocks[x][y].set_skull();
 		}
-		if (this.blocks[x][y].value == -1)
-			Ui.update_poison_count();
-		else if (this.blocks[x][y].value == -2)
-			Ui.update_wall_count();
-		else if (this.blocks[x][y].value == -5)
-			Ui.update_skull_count();
-		var tmp = this.blocks[x][y].dom;
-		this.board.appendChild(this.blocks[x][y].dom);
-		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
+		this.blocks[x][y].show();
 	},
 
 	add_poison: function()
 	{
 		var pos = Game.find_pos();
-		if (!pos)
-		{
-			console.log("Not enough space for a new block.");
-			return ;
-		}
+		if (!pos) return ;
 		var x = pos.x;
 		var y = pos.y;
 
 		Game.blocks[x][y] = new block();
-		Game.blocks[x][y].value = -1;
-		Game.blocks[x][y].dom = document.createElement("span");
-		Game.blocks[x][y].dom.className = "block poison";
-		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
-		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
-		Ui.update_poison_count();
-		var tmp = Game.blocks[x][y].dom;
-		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
+		Game.blocks[x][y].create();
+		Game.blocks[x][y].set_poison();
+		Game.blocks[x][y].set_position(x, y);
+		Game.blocks[x][y].show();
 	},
 
 	add_wall: function()
 	{
 		var pos = Game.find_pos();
-		if (!pos)
-		{
-			console.log("Not enough space for a new block.");
-			return ;
-		}
+		if (!pos) return ;
 		var x = pos.x;
 		var y = pos.y;
 
 		Game.blocks[x][y] = new block();
-		Game.blocks[x][y].value = -2;
-		Game.blocks[x][y].dom = document.createElement("span");
-		Game.blocks[x][y].dom.className = "block wall_01";
-		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
-		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
-		Ui.update_wall_count();
-		var tmp = Game.blocks[x][y].dom;
-		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
+		Game.blocks[x][y].create();
+		Game.blocks[x][y].set_wall();
+		Game.blocks[x][y].set_position(x, y);
+		Game.blocks[x][y].show();
 	},
 
 	add_skull: function()
 	{
 		var pos = Game.find_pos();
-		if (!pos)
-		{
-			console.log("Not enough space for a new block.");
-			return ;
-		}
+		if (!pos) return ;
 		var x = pos.x;
 		var y = pos.y;
 
 		Game.blocks[x][y] = new block();
-		Game.blocks[x][y].value = -5;
-		Game.blocks[x][y].dom = document.createElement("span");
-		Game.blocks[x][y].dom.className = "block skull";
-		Game.blocks[x][y].dom.style.left = 100 * x + 10 + "px";
-		Game.blocks[x][y].dom.style.top = 100 * y + 10 + "px";
-		Ui.update_skull_count();
-		var tmp = Game.blocks[x][y].dom;
-		Game.board.appendChild(Game.blocks[x][y].dom);
-		setTimeout(function(){ tmp.style.opacity = 1; }, 20);
+		Game.blocks[x][y].create();
+		Game.blocks[x][y].set_skull();
+		Game.blocks[x][y].set_position(x, y);
+		Game.blocks[x][y].show();
 	},
 
 	find_pos: function()
@@ -471,25 +388,21 @@ var Game =
 		var tmp_block = this.blocks[px][py];
 		this.blocks[px][py] = 0;
 		this.blocks[dx][dy] = tmp_block;
-		this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
-		this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
+		this.blocks[dx][dy].set_position(dx, dy);
 		Res.play_snd("move");
 	},
 
 	block_fusion: function(px, py, dx, dy)
 	{
 		this.moved = true;
-		this.blocks[dx][dy].value *= 2;
-		this.blocks[dx][dy].dom.innerHTML = this.blocks[dx][dy].value;
-		this.blocks[dx][dy].dom.style.backgroundColor = define_color(this.blocks[dx][dy].value);
+		this.blocks[dx][dy].set_value(this.blocks[dx][dy].value * 2);
 		this.add_score(this.blocks[dx][dy].value);
 		Animation.scale(this.blocks[dx][dy]);
 		var tmp_block = this.blocks[px][py];
 		this.blocks[px][py] = 0;
 		tmp_block.dom.style.zIndex = 3;
-		tmp_block.dom.style.left = this.blocks[dx][dy].dom.style.left;
-		tmp_block.dom.style.top = this.blocks[dx][dy].dom.style.top;
-		setTimeout(function() { tmp_block.dom.parentNode.removeChild(tmp_block.dom); }, 100);
+		tmp_block.copy_position(this.blocks[dx][dy]);
+		setTimeout(function() { tmp_block.delete(); }, 100);
 	},
 
 	block_to_poison: function(px, py, dx, dy)
@@ -505,12 +418,11 @@ var Game =
 			tmp_block.dom.innerHTML = tmp_block.value;
 		}
 		tmp_poison.dom.style.zIndex = 3;
-		tmp_block.dom.style.left = tmp_poison.dom.style.left;
-		tmp_block.dom.style.top = tmp_poison.dom.style.top;
+		tmp_block.copy_position(tmp_poison);
 		Animation.poison(tmp_block);
 		setTimeout(function()
 		{
-			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+			tmp_poison.delete();
 			Res.play_snd("poison");
 		}, 100);
 	},
@@ -526,12 +438,11 @@ var Game =
 			this.blocks[dx][dy].dom.innerHTML = this.blocks[dx][dy].value;
 		}
 		tmp_poison.dom.style.zIndex = 3;
-		tmp_poison.dom.style.left = this.blocks[dx][dy].dom.style.left;
-		tmp_poison.dom.style.top = this.blocks[dx][dy].dom.style.top;
+		tmp_poison.copy_position(this.blocks[dx][dy]);
 		Animation.poison(this.blocks[dx][dy]);
 		setTimeout(function()
 		{
-			tmp_poison.dom.parentNode.removeChild(tmp_poison.dom);
+			tmp_poison.delete();
 			Res.play_snd("poison");
 		}, 100);
 	},
@@ -544,13 +455,12 @@ var Game =
 		this.blocks[px][py] = 0;
 		this.blocks[dx][dy] = 0;
 		tmp_skull.dom.style.zIndex = 3;
-		tmp_block.dom.style.left = tmp_skull.dom.style.left;
-		tmp_block.dom.style.top = tmp_skull.dom.style.top;
+		tmp_block.copy_position(tmp_skull);
 		Animation.skull(tmp_block);
 		setTimeout(function()
 		{
-			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
-			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
+			tmp_block.delete();
+			tmp_skull.delete();
 			Res.play_snd("skull");
 			Reaper.laugh();
 		}, 100);
@@ -564,13 +474,12 @@ var Game =
 		this.blocks[px][py] = 0;
 		this.blocks[dx][dy] = 0;
 		tmp_skull.dom.style.zIndex = 3;
-		tmp_skull.dom.style.left = tmp_block.dom.style.left;
-		tmp_skull.dom.style.top = tmp_block.dom.style.top;
+		tmp_skull.copy_position(tmp_block);
 		Animation.skull(tmp_block);
 		setTimeout(function()
 		{
-			tmp_skull.dom.parentNode.removeChild(tmp_skull.dom);
-			tmp_block.dom.parentNode.removeChild(tmp_block.dom);
+			tmp_skull.delete();
+			tmp_block.delete();
 			Res.play_snd("skull");
 			Reaper.laugh();
 		}, 100);
@@ -583,19 +492,17 @@ var Game =
 		this.blocks[px][py] = 0;
 		if (tmp_wall.value == -4)
 		{
-			tmp_wall.dom.style.left = dx * 100 + 10 + "px";
-			tmp_wall.dom.style.top = dy * 100 + 10 + "px";
+			tmp_wall.set_position(dx, dy);
 			setTimeout(function()
 			{
-				tmp_wall.dom.parentNode.removeChild(tmp_wall.dom);
+				tmp_wall.delete();
 			}, 100);
 		}
 		else
 		{
 			--tmp_wall.value;
 			this.blocks[dx][dy] = tmp_wall;
-			this.blocks[dx][dy].dom.style.left = dx * 100 + 10 + "px";
-			this.blocks[dx][dy].dom.style.top = dy * 100 + 10 + "px";
+			this.blocks[dx][dy].set_position(dx, dy);
 			var self = this;
 			setTimeout(function()
 			{

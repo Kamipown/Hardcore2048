@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
+		<meta charset="utf-8">
+		<meta name="description" content="2048 in his hardest version !">
+		<meta name="keywords" content="2048,hard,hardcore,pixel">
+		<meta name="author" content="Paul Delobbel">
+		<meta name="Identifier-url" content="https://kamipown.github.io/Hardcore2048">
 		<title>Hardcore 2048</title>
-		<link rel="stylesheet" type="text/css" href="styles/style.css"/>
-		<link rel="icon" type="image/png" href="img/favicon.png"/>
+		<link rel="stylesheet" type="text/css" href="styles/style.css">
+		<link rel="icon" type="image/png" href="img/favicon.png">
 	</head>
 	<body>
+		<header id="main_header">
+			<h1><a href="index.html" alt="Hardcore 2048"><img src="img/title.png"></a></h1>
+			<nav>
+				<a target="_blank" href="https://kamipown.github.io" alt="Paul Delobbel">- Visit my website</a>
+				<a target="_blank" href="https://github.com/Kamipown/Hardcore2048" alt="Github">- View source code</a>
+				<a target="_blank" href="https://github.com/Kamipown/Hardcore2048/issues" alt="Github issue">- Report an issue</a>
+				<div class="fb-share-button" data-href="https://kamipown.github.io/Hardcore2048/" data-layout="link" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkamipown.github.io%2FHardcore2048%2F&amp;src=sdkpreparse">- Share on facebook</a></div>
+			</nav>
+		</header>
+
 		<div id="loading_div">
 			<div id="progression_div"></div>
 			<p id="progression_text">0%</p>
@@ -46,11 +60,25 @@
 		<div id="finish_div">
 			<p id="finish_score">2048</p>
 			<input type="button" value="Play Again" onclick="Game.retry();">
+			<div class="fb-share-button" data-href="https://kamipown.github.io/Hardcore2048/" data-layout="link" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkamipown.github.io%2FHardcore2048%2F&amp;src=sdkpreparse">Share on facebook</a></div>
 		</div>
 
 		<div id="reaper" class="stand"></div>
 		<p id="reaper_text"></p>
 
+		<div id="fb-root"></div>
+
+		<script>
+			(function(d, s, id)
+			{
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.6";
+				fjs.parentNode.insertBefore(js, fjs);
+			}
+			(document, 'script', 'facebook-jssdk'));
+		</script>
 		<script type="text/javascript" src="scripts/resources.js"></script>
 		<script type="text/javascript" src="scripts/index.js"></script>
 		<script type="text/javascript" src="scripts/ui.js"></script>
