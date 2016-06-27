@@ -3,6 +3,7 @@
 html { height: 100%;}
 body { height: 100%; margin: 0px; background-color: #111; font-size: 0px;}
 body, input { font-family: "slkscr";}
+input::-moz-focus-inner { border: 0;}
 h1, h2 { margin: 0px; font-weight: normal;}
 p { margin: 0px;}
 
@@ -12,8 +13,8 @@ p { margin: 0px;}
 		#main_header > h1 > a:active { outline: none;}
 			#main_header > h1 > a > img { display: block; width: 232px; height: 104px;}
 	#main_header > nav { display: block; margin-top: 20px; padding: 10px;}
-		#main_header > nav a { display: block; padding: 10px; font-size: 16px; text-decoration: none; color: #999;}
-		#main_header > nav a:hover { color: #fff;}
+		#main_header > nav > a { display: block; padding: 10px; font-size: 16px; text-decoration: none; color: #999;}
+		#main_header > nav > a:hover { color: #fff;}
 
 #loading_div { display: block; position: relative; z-index: 5; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; height: 40px; border: 4px solid #000; background-color: #1a1a1a;}
 	#progression_div { display: block; width: 0%; height: 100%; background-color: #00d505; transition: width 250ms ease;}
@@ -23,7 +24,8 @@ p { margin: 0px;}
 #main { display: none; position: relative; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 410px; height: 510px; border: 4px solid #000; background-color: #1a1a1a; overflow: hidden;}
 	#main > .menu_section { display: block; box-sizing: border-box; height: 100px; border-bottom: 4px solid #333;}
 		#main > .menu_section > .score_div { display: inline-block; box-sizing: border-box; height: 100%;}
-			#main > .menu_section > .score_div > h2 { height: 36px; line-height: 36px; padding: 0px 10px; font-size: 24px; color: #eee;}
+			#main > .menu_section > .score_div > h2 { display: inline-block; vertical-align: top; box-sizing: border-box; width: 290px; height: 36px; line-height: 36px; padding: 0px 10px; font-size: 24px; color: #eee;}
+			#main > .menu_section > .score_div > input { display: inline-block; vertical-align: top; box-sizing: border-box; width: 120px; height: 36px; line-height: 36px; padding: 0px 10px; border: none; background-color: transparent; outline: none; text-align: right; font-size: 16px; color: #777; cursor: pointer;}
 			#main > .menu_section > .score_div > p { display: inline-block; vertical-align: top; box-sizing: border-box; width: 170px; height: 60px; line-height: 60px; padding: 0px 10px; font-size: 32px; color: #fff;}
 			#main > .menu_section > .score_div > div { display: inline-block; vertical-align: top; position: relative; width: 80px; height: 60px; cursor: pointer;}
 				#main > .menu_section > .score_div > div > img { display: inline-block; vertical-align: top; box-sizing: border-box; width: 30px; height: 30px; margin: 15px 10px 15px 0px; border: 2px solid #000;}
@@ -41,11 +43,8 @@ p { margin: 0px;}
 		#main > .game_section > .skull { background-image: url("../img/blocks/skull.png"); background-size: 100% 100%;}
 
 #finish_div { display: none; position: absolute; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 200px; border: 4px solid #000; background-color: #1a1a1a; box-shadow: 0px 0px 4px #111;}
-	#finish_div > p { display: block; height: 80px; line-height: 80px; text-align: center; font-size: 42px; color: #fff;}
+	#finish_div > p { display: block; height: 120px; line-height: 120px; text-align: center; font-size: 42px; color: #fff;}
 	#finish_div > input { display: block; box-sizing: border-box; width: 260px; height: 60px; margin: 0px 20px; border: none; border-bottom: 4px solid #305; background-color: #407; font-size: 32px; color: #fff; cursor: pointer;}
-	#finish_div > div { display: block; width: 100%; height: 40px; text-align: center;}
-		#finish_div > div > a { display: block; width: 100%; height: 60px; line-height: 60px; font-size: 16px; color: #999; cursor: pointer; text-decoration: none;}
-		#finish_div > div:hover > a { color: #fff;}
 
 #reaper { display: none; position: fixed; bottom: 32px; left: 32px; vertical-align: top; width: 128px; height: 200px; transition: all 250ms ease;}
 #reaper.stand { background-image: url("../img/reaper/reaper_stand.gif");}

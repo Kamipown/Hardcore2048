@@ -17,7 +17,6 @@
 				<a target="_blank" href="https://kamipown.github.io" alt="Paul Delobbel">- Visit my website</a>
 				<a target="_blank" href="https://github.com/Kamipown/Hardcore2048" alt="Github">- View source code</a>
 				<a target="_blank" href="https://github.com/Kamipown/Hardcore2048/issues" alt="Github issue">- Report an issue</a>
-				<div class="fb-share-button" data-href="https://kamipown.github.io/Hardcore2048/" data-layout="link" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkamipown.github.io%2FHardcore2048%2F&amp;src=sdkpreparse">- Share on facebook</a></div>
 			</nav>
 		</header>
 
@@ -31,6 +30,7 @@
 			<section class="menu_section">
 				<div class="score_div">
 					<h2>Score :</h2>
+					<input id="mute_button" type="button" value="mute" onclick="Res.toggle_sounds();">
 					<p id="score_text">0</p>
 					<div>
 						<img src="img/blocks/poison.png">
@@ -60,7 +60,6 @@
 		<div id="finish_div">
 			<p id="finish_score">2048</p>
 			<input type="button" value="Play Again" onclick="Game.retry();">
-			<div class="fb-share-button" data-href="https://kamipown.github.io/Hardcore2048/" data-layout="link" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkamipown.github.io%2FHardcore2048%2F&amp;src=sdkpreparse">Share on facebook</a></div>
 		</div>
 
 		<div id="reaper" class="stand"></div>

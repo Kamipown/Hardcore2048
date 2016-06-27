@@ -10,6 +10,8 @@ var Res =
 
 	vol: 1,
 
+	mute_button: document.getElementById("mute_button"),
+
 	init: function()
 	{
 		this.img_paths[0] = "img/reaper/reaper_stand.gif"
@@ -104,5 +106,21 @@ var Res =
 		if (name == "poison") this.snd[6].play();
 		if (name == "wall") this.snd[7].play();
 		if (name == "skull") this.snd[8].play();
+	},
+
+	toggle_sounds: function()
+	{
+		if (this.vol == 1)
+		{
+			this.vol = 0;
+			this.set_snd_settings(this.vol);
+			this.mute_button.value = "Unmute";
+		}
+		else if (this.vol == 0)
+		{
+			this.vol = 1;
+			this.set_snd_settings(this.vol);
+			this.mute_button.value = "Mute";
+		}
 	}
 }
